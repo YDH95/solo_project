@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- TMS -->
+    <bean id="tmsServiceDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="#{config['tmsService.driverClassName']}" />
+        <property name="url" value="#{config['tmsService.url']}" />
+        <property name="username" value="#{config['tmsService.username']}" />
+        <property name="password" value="#{config['tmsService.password']}" />
+
+        <property name="initialSize" value="#{config['tms.initialSize']}" />
+        <property name="maxActive" value="#{config['tms.maxActive']}" />
+        <property name="minIdle" value="#{config['tms.minIdle']}" />
+        <property name="maxIdle" value="#{config['tms.maxIdle']}" />
+        <property name="maxWait" value="#{config['tms.maxWait']}" />
+
+        <property name="validationQuery" value="select 1" />
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="120000"/>
+    </bean>
+
+    <!-- Mybatis Log4j setting -->
+   <!--  <bean id="tmsServiceLogDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="tmsServiceDataSource" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL:::" />
+            </bean>
+        </property>
+    </bean> -->
+
+    <!-- diagData -->
+    <bean id="diagDataDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="#{config['diagService.driverClassName']}" />
+        <property name="url" value="#{config['diagService.url']}" />
+        <property name="username" value="#{config['diagService.username']}" />
+        <property name="password" value="#{config['diagService.password']}" />
+
+        <property name="initialSize" value="#{config['tms.initialSize']}" />
+        <property name="maxActive" value="#{config['tms.maxActive']}" />
+        <property name="minIdle" value="#{config['tms.minIdle']}" />
+        <property name="maxIdle" value="#{config['tms.maxIdle']}" />
+        <property name="maxWait" value="#{config['tms.maxWait']}" />
+
+        <property name="validationQuery" value="select 1" />
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="120000"/>
+    </bean>
+    
+    <!-- Mybatis Log4j setting -->
+   <!--  <bean id="diagDataLogDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="diagDataDataSource" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="diagSQL:::" />
+            </bean>
+        </property>
+    </bean> -->
+
+    <!-- TMS WIDGET -->
+    <!-- 현재 사용하지 않기 때문에 막아놈
+    <bean id="tmsWidgetDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="#{config['tmsWidget.driverClassName']}" />
+        <property name="url" value="#{config['tmsWidget.url']}" />
+        <property name="username" value="#{config['tmsWidget.username']}" />
+        <property name="password" value="#{config['tmsWidget.password']}" />
+
+        <property name="initialSize" value="#{config['tms.initialSize']}" />
+        <property name="maxActive" value="#{config['tms.maxActive']}" />
+        <property name="minIdle" value="#{config['tms.minIdle']}" />
+        <property name="maxIdle" value="#{config['tms.maxIdle']}" />
+        <property name="maxWait" value="#{config['tms.maxWait']}" />
+
+        <property name="validationQuery" value="select 1" />
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="120000"/>
+    </bean>
+    -->
+
+    <!-- Mybatis Log4j setting -->
+    <!-- 현재 사용하지 않기 때문에 막아놈
+    <bean id="tmsWidgetLogDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="tmsWidgetDataSource" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL:::" />
+            </bean>
+        </property>
+    </bean>
+    -->
+
+</beans>

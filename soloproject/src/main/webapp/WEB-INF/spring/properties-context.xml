@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	       xmlns:util="http://www.springframework.org/schema/util"
+	       xsi:schemaLocation="	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	       										http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id ="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="file:C:/beconConf/status.properties" />
+    </bean>
+
+    <bean name="propertiesService" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:properties/${server-env}/config.properties</value>
+            </list>
+        </property>
+        <property name="properties">
+            <map>
+                <!--<entry key="100" value="${name}"/>-->
+                <entry key="200" value="Success"/>
+                <entry key="300" value="BAD Parameter"/>
+                <entry key="500" value="Internal Server Error"/>
+                <entry key="schedule" value="A Response Message from INF server for Schedule Inquiry List"/>
+                <entry key="cargo" value="A Response Message from INF server for Cargo Tracking"/>
+                <entry key="tracking" value="A Response Message from INF server for Cargo Tracking Info"/>
+            </map>
+        </property>
+    </bean>
+
+    <util:properties id="config" location="classpath:/properties/${server-env}/config.properties" />
+
+</beans>

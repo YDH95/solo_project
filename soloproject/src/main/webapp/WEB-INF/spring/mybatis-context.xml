@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ************************* Tms Service SqlSession ************************* -->
+    <bean id="tmsServiceSqlSessionFactory" class="com.lge.beconcloud.common.util.RefreshableSqlSessionFactoryBean">    	
+        <property name="dataSource" ref="tmsServiceDataSource" />
+        <property name="configLocation" value="classpath:mybatis/query-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/tmsServiceMapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="tmsServiceSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="tmsServiceSqlSessionFactory" />
+    </bean>
+    
+	<!-- ************************* diagData SqlSession ************************* -->
+    <bean id="diagDataSqlSessionFactory" class="com.lge.beconcloud.common.util.RefreshableSqlSessionFactoryBean">
+        <property name="dataSource" ref="diagDataDataSource" />
+        <property name="configLocation" value="classpath:mybatis/query-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/diagServiceMapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="diagDataSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="diagDataSqlSessionFactory" />
+    </bean>    
+
+	<!--
+    <bean id="tmsServiceScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lge.beconcloud.**.service.impl" />
+        <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+        <property name="sqlSessionFactoryBeanName" value="tmsServiceSqlSessionFactory" />
+    </bean>
+    -->
+
+	<!-- ************************* Tms Data SqlSession ************************* -->
+	<!-- 현재 사용하지 않기 때문에 막아놈	 
+    <bean id="tmsDataSqlSessionFactory" class="com.lge.beconcloud.common.util.RefreshableSqlSessionFactoryBean">
+        <property name="dataSource" ref="tmsDataLogDataSource" />
+        <property name="configLocation" value="classpath:mybatis/query-config.xml"/>
+
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/tmsDataMapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="tmsDataSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="tmsDataSqlSessionFactory" />
+    </bean>
+    -->
+
+	<!--
+    <bean id="tmsDataScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lge.beconcloud.**.service.impl" />
+        <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+        <property name="sqlSessionFactoryBeanName" value="tmsDataSqlSessionFactory" />
+    </bean>
+    -->
+	
+	<!-- ************************* Tms Widget SqlSession ************************* -->
+	<!-- 현재 사용하지 않기 때문에 막아놈
+	<bean id="tmsWidgetSqlSessionFactory" class="com.lge.beconcloud.common.util.RefreshableSqlSessionFactoryBean">
+        <property name="dataSource" ref="tmsWidgetLogDataSource" />
+        <property name="configLocation" value="classpath:mybatis/query-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/tmsWidgetMapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="tmsWidgetSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="tmsWidgetSqlSessionFactory" />
+    </bean>
+
+    <bean id="tmsWidgetScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lge.beconcloud" />
+        <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+        <property name="sqlSessionFactoryBeanName" value="tmsWidgetSqlSessionFactory" />
+    </bean>
+    -->
+	
+</beans>

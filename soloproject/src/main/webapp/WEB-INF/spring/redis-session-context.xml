@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:redis="http://www.springframework.org/schema/redis"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis-1.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- added by psk 20190227 - spring session -->
+	
+	<context:annotation-config />	
+	<!-- The session timeout in seconds. maxInactiveIntervalInSeconds has more default interval 5 minutes. -->
+	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration" >
+		<property name="maxInactiveIntervalInSeconds">
+			<!-- <value>72000</value> -->
+			<value>7200</value>
+		</property>
+	</bean>	
+	
+	<!-- web session redis  -->
+	<!-- 일반적으로 Java에서 Redis를 접근할 때 Jedis를 많이 사용하는데, Spring Session에서는 Thread-safe한 방식으로 connection을 관리하는 것이 유리하여 Lettuce를 사용 -->
+	<bean id="redisConnectionFactoryWEB" primary="true" class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory" destroy-method="destroy">
+		<property name="hostName">
+			<value>#{config['REDIS_URL2']}</value>
+		</property>
+		<property name="port">
+			<value>#{config['REDIS_PORT2']}</value>
+		</property>
+		<!-- <property name="password">
+			<value>#{config['REDIS_PASS2']}</value>
+		</property>
+		<property name="useSsl">
+			<value>#{config['REDIS_SSL2']}</value>
+		</property> -->
+		<property name="database">
+			<value>1</value>
+		</property>
+	</bean>
+	
+	<util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP" />
+	
+	<bean id="redisTemplateWEB" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connectionFactory-ref="redisConnectionFactoryWEB" />
+
+	<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- membase redis  -->
+	<!-- Bean 오브젝트를 redis hash type으로 저장하기 위해서는 org.springframework.data.redis.core.RedisTemplate 를 사용 -->
+	<!-- 그외 string, list, set, sorted-set은 key, value값으로 String을 사용하므로 org.springframework.data.redis.core.StringRedisTemplate 를 사용함 -->
+	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal">
+			<value>10</value>
+		</property>
+		<property name="maxIdle">
+			<value>10</value>
+		</property>
+	</bean>
+
+	<bean id="redisConnectionFactoryAPP" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName">
+			<value>#{config['REDIS_URL1']}</value>
+		</property>
+		<property name="port">
+			<value>#{config['REDIS_PORT1']}</value>
+		</property>
+		<property name="password">
+			<value>#{config['REDIS_PASS1']}</value>
+		</property>
+		<property name="usePool">
+			<value>true</value>
+		</property>
+		<property name="useSsl">
+			<value>#{config['REDIS_SSL1']}</value>
+		</property>
+		<property name="database">
+			<value>0</value>
+		</property>
+		<property name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+	
+	<bean id="redisTemplateAPP" class="org.springframework.data.redis.core.StringRedisTemplate"
+		p:connectionFactory-ref="redisConnectionFactoryAPP" />
+		
+	<!-- =========================================================== -->
+
+	<!--
+	<bean id="redisConnectionFactoryWEB" primary="true" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName">
+			<value>#{config['REDIS_URL2']}</value>
+		</property>
+		<property name="port">
+			<value>#{config['REDIS_PORT2']}</value>
+		</property>
+		<property name="password">
+			<value>#{config['REDIS_PASS2']}</value>
+		</property>
+		<property name="usePool">
+			<value>true</value>
+		</property>
+		<property name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+	
+	<bean id="redisTemplateWEB" class="org.springframework.data.redis.core.StringRedisTemplate"
+		p:connectionFactory-ref="redisConnectionFactoryWEB" />
+	-->
+
+</beans>

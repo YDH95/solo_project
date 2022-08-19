@@ -5,4 +5,11 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+	<import resource="properties-context.xml" />
+    <import resource="common-context.xml" />
+    <import resource="datasource-context.xml" />
+    <import resource="mybatis-context.xml" />
+    <import resource="transaction-context.xml" />
+    <import resource="redis-session-context.xml" />   
+		
 </beans>
